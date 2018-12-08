@@ -1,7 +1,7 @@
 #!/usr/bin/make
 #----------------------------------------------------------------------------------------------------------------------------------
 # make init
-MAKEFLAGS = -j 1
+MAKEFLAGS = -j 4
 
 # shell
 SHELL = /bin/bash
@@ -11,14 +11,14 @@ $(VERBOSE).SILENT:
 
 #----------------------------------------------------------------------------------------------------------------------------------
 # User options
-TESTS    = no
+TESTS    = yes
 SHARED   = no
 STATIC   = yes
-COMPILER = gnu
+COMPILER = intel
 DEBUG    = no
 F03STD   = no
 OPTIMIZE = no
-OPENMP   = no
+OPENMP   = yes
 MPI      = no
 R16P     = no
 ifeq "$(TESTS)" "yes"
@@ -46,7 +46,7 @@ WRN_INT = -warn all
 CHK_INT = -check arg_temp_created -check format -check assume -check format -check output_conversion -check pointers -check stack -check uninit
 DEB_INT = -debug all -extend-source 132 -fpe-all=0 -fp-stack-check -fstack-protector-all -ftrapuv -no-ftz -traceback -gen-interfaces
 STD_INT = -std03
-OMP_INT = -openmp
+OMP_INT = -qopenmp
 OPT_INT = -O3 -ipo -inline all -ipo-jobs4 -vec-report1
 PRF_INT = #-p
 #----------------------------------------------------------------------------------------------------------------------------------
