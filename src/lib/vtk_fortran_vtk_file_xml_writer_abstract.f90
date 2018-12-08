@@ -1362,14 +1362,6 @@ contains
   !---------------------------------------------------------------------------------------------------------------------------------
 
   !---------------------------------------------------------------------------------------------------------------------------------
-  if (np/=size(xyz, dim=2)) then
-    self%error = 1
-    return
-  endif
-  if (nc>np) then
-    self%error = 2
-    return
-  endif
   call self%write_start_tag(name='Points')
   error = self%write_dataarray(data_name='Points', x=xyz)
   call self%write_end_tag(name='Points')
@@ -1389,14 +1381,6 @@ contains
   !---------------------------------------------------------------------------------------------------------------------------------
 
   !---------------------------------------------------------------------------------------------------------------------------------
-  if (np/=size(xyz, dim=2)) then
-    self%error = 1
-    return
-  endif
-  if (nc>np) then
-    self%error = 2
-    return
-  endif
   call self%write_start_tag(name='Points')
   error = self%write_dataarray(data_name='Points', x=xyz)
   call self%write_end_tag(name='Points')
@@ -1418,14 +1402,6 @@ contains
   !---------------------------------------------------------------------------------------------------------------------------------
 
   !---------------------------------------------------------------------------------------------------------------------------------
-  if ((np/=size(x, dim=1)).or.(np/=size(y, dim=1)).or.(np/=size(z, dim=1))) then
-    self%error = 1
-    return
-  endif
-  if (nc>np) then
-    self%error = 2
-    return
-  endif
   call self%write_start_tag(name='Points')
   error = self%write_dataarray(data_name='Points', x=x, y=y, z=z)
   call self%write_end_tag(name='Points')
@@ -1447,14 +1423,6 @@ contains
   !---------------------------------------------------------------------------------------------------------------------------------
 
   !---------------------------------------------------------------------------------------------------------------------------------
-  if ((np/=size(x, dim=1)).or.(np/=size(y, dim=1)).or.(np/=size(z, dim=1))) then
-    self%error = 1
-    return
-  endif
-  if (nc>np) then
-    self%error = 2
-    return
-  endif
   call self%write_start_tag(name='Points')
   error = self%write_dataarray(data_name='Points', x=x, y=y, z=z)
   call self%write_end_tag(name='Points')
