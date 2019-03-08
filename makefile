@@ -14,7 +14,7 @@ $(VERBOSE).SILENT:
 TESTS    = no
 SHARED   = no
 STATIC   = yes
-COMPILER = gnu
+COMPILER = intel
 DEBUG    = no
 F03STD   = no
 OPTIMIZE = yes
@@ -47,7 +47,7 @@ CHK_INT = -check arg_temp_created -check format -check assume -check format -che
 DEB_INT = -debug all -extend-source 132 -fpe-all=0 -fp-stack-check -fstack-protector-all -ftrapuv -no-ftz -traceback -gen-interfaces
 STD_INT = -std03
 OMP_INT = -qopenmp
-OPT_INT = -O3 -heap-arrays -mkl -parallel
+OPT_INT = -Ofast -heap-arrays -mkl -parallel
 PRF_INT = #-p
 #----------------------------------------------------------------------------------------------------------------------------------
 
