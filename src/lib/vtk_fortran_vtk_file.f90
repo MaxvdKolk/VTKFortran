@@ -47,6 +47,7 @@ contains
   !<- RectilinearGrid;
   !<- StructuredGrid;
   !<- UnstructuredGrid.
+  !<- ImageData;
   !<
   !<### Example of usage
   !<

@@ -860,7 +860,7 @@ contains
   !---------------------------------------------------------------------------------------------------------------------------------
   buffer = ''
   select case(self%topology%chars())
-  case('RectilinearGrid', 'StructuredGrid')
+  case('RectilinearGrid', 'StructuredGrid', 'ImageData')
     buffer = 'WholeExtent="'//                             &
              trim(str(n=nx1))//' '//trim(str(n=nx2))//' '//&
              trim(str(n=ny1))//' '//trim(str(n=ny2))//' '//&
