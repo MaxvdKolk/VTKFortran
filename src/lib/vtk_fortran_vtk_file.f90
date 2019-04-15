@@ -29,7 +29,7 @@ type :: vtk_file
 endtype vtk_file
 !-----------------------------------------------------------------------------------------------------------------------------------
 contains
-  function initialize(self, format, filename, mesh_topology, nx1, nx2, ny1, ny2, nz1, nz2) result(error)
+  function initialize(self, format, filename, mesh_topology, nx1, nx2, ny1, ny2, nz1, nz2, x1, y1, z1, xo, yo, zo) result(error)
   !---------------------------------------------------------------------------------------------------------------------------------
   !< Initialize file (writer).
   !<
@@ -71,6 +71,12 @@ contains
   integer(I4P),    intent(in),  optional :: ny2           !< Final node of y axis.
   integer(I4P),    intent(in),  optional :: nz1           !< Initial node of z axis.
   integer(I4P),    intent(in),  optional :: nz2           !< Final node of z axis.
+  real(kind=R8P), intent(in), optional :: x1 !< Min coordinate of x axis
+  real(kind=R8P), intent(in), optional :: y1 !< Min coordinate of y axis
+  real(kind=R8P), intent(in), optional :: z1 !< Min coordinate of z axis
+  real(kind=R8P), intent(in), optional :: xo !< Min coordinate of x axis
+  real(kind=R8P), intent(in), optional :: yo !< Min coordinate of y axis
+  real(kind=R8P), intent(in), optional :: zo !< Min coordinate of z axis
   integer(I4P)                           :: error         !< Error status.
   type(string)                           :: fformat       !< File format.
   !---------------------------------------------------------------------------------------------------------------------------------
@@ -92,7 +98,7 @@ contains
     error = 1
   endselect
   error = self%xml_writer%initialize(format=format, filename=filename, mesh_topology=mesh_topology, &
-                                     nx1=nx1, nx2=nx2, ny1=ny1, ny2=ny2, nz1=nz1, nz2=nz2)
+                                     nx1=nx1, nx2=nx2, ny1=ny1, ny2=ny2, nz1=nz1, nz2=nz2, x1=x1, y1=y1, z1=z1, xo=xo, yo=yo, zo=zo)
   !---------------------------------------------------------------------------------------------------------------------------------
   endfunction initialize
 

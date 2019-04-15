@@ -174,11 +174,11 @@ endtype xml_writer_abstract
 
 !-----------------------------------------------------------------------------------------------------------------------------------
 abstract interface
-  function initialize_interface(self, format, filename, mesh_topology, nx1, nx2, ny1, ny2, nz1, nz2, mesh_kind) result(error)
+  function initialize_interface(self, format, filename, mesh_topology, nx1, nx2, ny1, ny2, nz1, nz2, x1, y1, z1, xo, yo, zo, mesh_kind) result(error)
   !---------------------------------------------------------------------------------------------------------------------------------
   !< Initialize writer.
   !---------------------------------------------------------------------------------------------------------------------------------
-  import :: xml_writer_abstract, I4P
+  import :: xml_writer_abstract, I4P, R8P
   class(xml_writer_abstract), intent(inout)        :: self          !< Writer.
   character(*),               intent(in)           :: format        !< File format: ASCII.
   character(*),               intent(in)           :: filename      !< File name.
@@ -189,6 +189,12 @@ abstract interface
   integer(I4P),               intent(in), optional :: ny2           !< Final node of y axis.
   integer(I4P),               intent(in), optional :: nz1           !< Initial node of z axis.
   integer(I4P),               intent(in), optional :: nz2           !< Final node of z axis.
+  real(R8P), intent(in), optional :: x1
+  real(R8P), intent(in), optional :: y1
+  real(R8P), intent(in), optional :: z1
+  real(R8P), intent(in), optional :: xo
+  real(R8P), intent(in), optional :: yo
+  real(R8P), intent(in), optional :: zo
   character(*),               intent(in), optional :: mesh_kind     !< Kind of mesh data: Float64, Float32, ecc.
   integer(I4P)                                     :: error         !< Error status.
   !---------------------------------------------------------------------------------------------------------------------------------
@@ -842,7 +848,7 @@ contains
   !---------------------------------------------------------------------------------------------------------------------------------
   endsubroutine write_tag
 
-  subroutine write_topology_tag(self, nx1, nx2, ny1, ny2, nz1, nz2, mesh_kind)
+  subroutine write_topology_tag(self, nx1, nx2, ny1, ny2, nz1, nz2, x1, y1, z1, xo, yo, zo, mesh_kind)
   !---------------------------------------------------------------------------------------------------------------------------------
   !< Write XML topology tag.
   !---------------------------------------------------------------------------------------------------------------------------------
@@ -853,6 +859,12 @@ contains
   integer(I4P),               intent(in), optional :: ny2       !< Final node of y axis.
   integer(I4P),               intent(in), optional :: nz1       !< Initial node of z axis.
   integer(I4P),               intent(in), optional :: nz2       !< Final node of z axis.
+  real(R8P),                  intent(in), optional :: x1        !< delta coordinate x
+  real(R8P),                  intent(in), optional :: y1        !< delta coordinate y
+  real(R8P),                  intent(in), optional :: z1        !< delta coordinate z
+  real(R8P),                  intent(in), optional :: xo        !< delta coordinate x
+  real(R8P),                  intent(in), optional :: yo        !< delta coordinate y
+  real(R8P),                  intent(in), optional :: zo        !< delta coordinate z
   character(*),               intent(in), optional :: mesh_kind !< Kind of mesh data: Float64, Float32, ecc.
   type(string)                                     :: buffer    !< Buffer string.
   !---------------------------------------------------------------------------------------------------------------------------------
@@ -860,7 +872,7 @@ contains
   !---------------------------------------------------------------------------------------------------------------------------------
   buffer = ''
   select case(self%topology%chars())
-  case('RectilinearGrid', 'StructuredGrid', 'ImageData')
+  case('RectilinearGrid', 'StructuredGrid')
     buffer = 'WholeExtent="'//                             &
              trim(str(n=nx1))//' '//trim(str(n=nx2))//' '//&
              trim(str(n=ny1))//' '//trim(str(n=ny2))//' '//&
@@ -870,6 +882,19 @@ contains
              trim(str(n=nx1))//' '//trim(str(n=nx2))//' '//&
              trim(str(n=ny1))//' '//trim(str(n=ny2))//' '//&
              trim(str(n=nz1))//' '//trim(str(n=nz2))//'" GhostLevel="#"'
+  case('ImageData')
+    buffer = 'WholeExtent="'//&
+             trim(str(n=nx1))//' '//trim(str(n=nx2))//' '//&
+             trim(str(n=ny1))//' '//trim(str(n=ny2))//' '//&
+             trim(str(n=nz1))//' '//trim(str(n=nz2))//'" '//&
+             'Origin="'//&
+             trim(str(fm="(F16.8)",n=xo))//' '//&
+             trim(str(fm="(F16.8)",n=yo))//' '//&
+             trim(str(fm="(F16.8)",n=zo))//'" '//&
+             'Spacing="'//&
+             trim(str(fm="(F16.8)",n=x1))//' '//&
+             trim(str(fm="(F16.8)",n=y1))//' '//&
+             trim(str(fm="(F16.8)",n=z1))//'"'
   case('PUnstructuredGrid')
     buffer = 'GhostLevel="0"'
   endselect
